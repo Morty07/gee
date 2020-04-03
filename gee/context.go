@@ -13,6 +13,7 @@ type Context struct {
 	R          *http.Request
 	Path       string
 	Method     string
+	Params     map[string]string
 	StatusCode int
 }
 
@@ -66,4 +67,9 @@ func (c *Context) HTML(code int, html string) {
 	c.setHeader("Content-Type", "text/html")
 	c.Status(code)
 	c.W.Write([]byte(html))
+}
+
+func (c *Context) Param(key string) string {
+	value, _ := c.Params[key]
+	return value
 }
