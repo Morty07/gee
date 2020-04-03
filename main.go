@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"gee/gee"
-	"net/http"
 )
 
 // 1.
@@ -50,12 +49,12 @@ import (
 // 3.
 func main() {
 	g := gee.New()
-	g.GET("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "URL.Path = %q\n", r.URL.Path)
+	g.GET("/", func(c *gee.Context) {
+		fmt.Fprintf(c.W, "URL.Path = %q\n", c.Path)
 	})
-	g.GET("/hello", func(w http.ResponseWriter, r *http.Request) {
-		for k, v := range r.Header {
-			fmt.Fprintf(w, "Header[%q] = %q\n", k, v)
+	g.GET("/hello", func(c *gee.Context) {
+		for k, v := range c.R.Header {
+			fmt.Fprintf(c.W, "Header[%q] = %q\n", k, v)
 		}
 	})
 	g.Run(":8000")
